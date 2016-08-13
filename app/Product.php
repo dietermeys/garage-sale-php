@@ -15,4 +15,20 @@ class Product extends Model
         'image',
         'published_at'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Category
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|User
+     */
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
