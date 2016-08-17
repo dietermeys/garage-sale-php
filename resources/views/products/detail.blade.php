@@ -5,15 +5,15 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Overview of products</div>
+                    <div class="panel-heading">{{ $product->title }}</div>
 
                     <div class="panel-body">
                         <ul>
-                        @foreach($products as $product)
-                            <li>{{ $product->title }}</li>
-                        @endforeach
+
+                                <li>{{ $product->summary }}</li>
+                                <li>{{ $product->price }}</li>
+
                         </ul>
-                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
