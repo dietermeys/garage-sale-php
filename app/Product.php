@@ -12,7 +12,6 @@ class Product extends Model
         'summary',
         'price',
         'category_id',
-        'image',
         'published_at'
     ];
 
@@ -24,8 +23,10 @@ class Product extends Model
      */
     public function getDistanceAttribute($value)
     {
-        $user = \Auth::getUser();
-        return DistanceCalculator::calculate($user->lat, $user->lng, $this->seller->lat, $this->seller->lng);
+        $user = \Auth::user();
+        $distance = DistanceCalculator::calculate($user->lat, $user->lng, $this->seller->lat, $this->seller->lng);
+        $this->attributes['distance'] = $distance;
+        return $distance;
     }
 
     /**
@@ -42,6 +43,11 @@ class Product extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Image::class, 'product_id');
     }
 
     /**

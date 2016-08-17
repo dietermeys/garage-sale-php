@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->float('price', 10);
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->string('image');
             $table->timestamps();
         });
     }

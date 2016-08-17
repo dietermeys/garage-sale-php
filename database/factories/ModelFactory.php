@@ -17,7 +17,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt('wachtwoord'),
         'street' => $faker->streetName,
         'nr' => $faker->buildingNumber,
         'bus' => '',
@@ -45,6 +45,5 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'title' => $faker->word,
         'summary' => $faker->text,
         'price' => $faker->randomFloat(2,5),
-        'image' => $faker->imageUrl(),
     ];
 });
