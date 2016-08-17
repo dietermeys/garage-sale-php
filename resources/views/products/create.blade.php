@@ -79,7 +79,11 @@
                                            value="{{ old('category_id') }}">
                                         <option value="-1">-- Choose --</option>
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            <option value="{{$category->id}}"
+                                                @if ($category->id == old('category_id'))
+                                                    selected
+                                                @endif
+                                            >{{$category->name}}</option>
                                         @endforeach
                                     </select>
 

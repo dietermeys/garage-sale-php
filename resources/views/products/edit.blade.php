@@ -78,11 +78,18 @@
                                 <label for="category_id" class="col-md-4 control-label">Category</label>
 
                                 <div class="col-md-6">
+                                    <?php
+                                        $category_id = old('category_id', $product->category_id);
+                                    ?>
                                     <select id="category_id" class="form-control" name="category_id"
-                                            value="{{ old('category_id', $product->category_id) }}">
+                                            value="{{ $category_id }}">
                                         <option value="-1">-- Choose --</option>
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            <option value="{{$category->id}}"
+                                            @if ($category->id == $category_id)
+                                                selected
+                                            @endif
+                                            >{{$category->name}}</option>
                                         @endforeach
                                     </select>
 
