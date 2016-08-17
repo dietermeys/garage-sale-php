@@ -11,29 +11,14 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('products')->insert([
-            'user_id' => '1',
-            'title' => 'Eerste product',
-            'summary' => 'Eerste product dat te koop staat enzo!',
-            'price' => '10',
-            'category_id' => '2',
-            'file_name' => 'product1.png',
-        ]);
-        DB::table('products')->insert([
-            'user_id' => '1',
-            'title' => 'Tweede product',
-            'summary' => 'Tweede product dat te koop staat enzo!',
-            'price' => '13',
-            'category_id' => '1',
-            'file_name' => 'product2.png',
-        ]);
-        DB::table('products')->insert([
-            'user_id' => '1',
-            'title' => 'Derde product',
-            'summary' => 'Derde product dat te koop staat enzo!',
-            'price' => '15',
-            'category_id' => '3',
-            'file_name' => 'product3.png',
-        ]);
+        $users = \App\User::all();
+        $categories = \App\Category::all();
+        factory(App\Product::class, 50)->make()->each(function(\App\Product $product) use ($users, $categories){
+            $user = $users->random();
+            $category = $categories->random();
+            $product->seller()->associate($user);
+            $product->category()->associate($category);
+            $product->save();
+        });
     }
 }
