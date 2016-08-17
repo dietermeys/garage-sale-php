@@ -99,7 +99,29 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request->all();
+        /* @var Product $product */
+        $product = Product::find($id);
+        if($request->hasFile('images')) {
+            //http://stackoverflow.com/a/36834321
+            $files = $request->file('images');
+            foreach ($files as $file) {
+                /* @var UploadedFile $file */
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $picture = date('His') . $product->id . $filename;
+                $destinationPath = base_path() . '/public/images/products';
+                $file->move($destinationPath, $picture);
+                $product->photos()->create([
+                    'filename' => $picture
+                ]);
+            }
+        }
+
+        $product->update($request->all());
+
+        return redirect()->route('products.show', [
+            'id' => $product->id
+        ]);
     }
 
     /**
