@@ -45,19 +45,8 @@ class ProductsController extends Controller
         $product = new Product($request->all());
         $user->productsForSale()->save($product);
 
-        //http://stackoverflow.com/a/36834321
-        $files = $request->file('images');
-        foreach ($files as $file) {
-            /* @var UploadedFile $file */
-            $filename = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $picture = date('His') . $product->id . $filename;
-            $destinationPath = base_path() . '/public/images/products';
-            $file->move($destinationPath, $picture);
-            $product->photos()->create([
-                'filename' => $picture
-            ]);
-        }
+        if ($request->hasFile('images'))
+            $this->storePhotos($request->file('images'), $product);
 
         return redirect()->route('products.show', [
             'id' => $product->id
@@ -101,21 +90,9 @@ class ProductsController extends Controller
     {
         /* @var Product $product */
         $product = Product::find($id);
-        if($request->hasFile('images')) {
-            //http://stackoverflow.com/a/36834321
-            $files = $request->file('images');
-            foreach ($files as $file) {
-                /* @var UploadedFile $file */
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $picture = date('His') . $product->id . $filename;
-                $destinationPath = base_path() . '/public/images/products';
-                $file->move($destinationPath, $picture);
-                $product->photos()->create([
-                    'filename' => $picture
-                ]);
-            }
-        }
+
+        if($request->hasFile('images'))
+            $this->storePhotos($request->file('images'), $product);
 
         $product->update($request->all());
 
@@ -133,5 +110,36 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Store uploaded product image(s) on disk and db
+     *
+     * @param UploadedFile[] $files
+     * @param Product $product
+     */
+    protected function storePhotos($files, $product)
+    {
+        if (!is_array($files))
+            $files = [$files];
+
+        $urls = [];
+
+        foreach ($files as $file) {
+            $fileName = date('His') . $product->id . $file->hashName();
+
+            // Save on disk
+            $file->move(
+                config('storage.images.products'),
+                $fileName
+            );
+
+            $urls[] = [
+                'filename' => $fileName
+            ];
+        }
+
+        // Save in db
+        $product->photos()->createMany($urls);
     }
 }
