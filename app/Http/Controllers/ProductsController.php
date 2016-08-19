@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -14,11 +15,21 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with("seller", "category")->paginate(10);
+        /** @var Builder $queryBuilder */
+        $queryBuilder = Product::with("seller", "category");
+
+        if ($request->has('search')) {
+            $queryBuilder->where(
+                'title', 'like', '%' . $request->get('search') . '%'
+            );
+        }
+
+        $products = $queryBuilder->paginate(10);
         return view('products.index', compact("products"));
     }
 

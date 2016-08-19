@@ -8,12 +8,29 @@
                     <div class="panel-heading">Overview of products</div>
 
                     <div class="panel-body">
+
+                        <form class="form-inline" role="form" method="GET" action="{{ route('products.index') }}">
+                            <div class="form-group">
+                                <label class="sr-only" for="search">Search</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="search" placeholder="Search"
+                                           value="{{ \Request::get('search') }}"
+                                           name="search"
+                                    >
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-default">Search</button>
+                        </form>
+
                         <ul>
                         @foreach($products as $product)
                             <li>{{ $product->title }}</li>
                         @endforeach
                         </ul>
-                        {{ $products->links() }}
+                        {{ $products->appends(\Request::only('search'))->links() }}
                     </div>
                 </div>
             </div>
