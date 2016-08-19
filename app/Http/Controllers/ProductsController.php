@@ -109,7 +109,17 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        /* @var Product $product */
+        $product = Product::find($id);
+        $user = \Auth::user();
+
+        if ($product->seller->id !== $user->id) {
+            return redirect()->back()->withErrors(
+                'You do not have sufficient rights to delete this product.'
+            );
+        }
+
+        return redirect()->to('/');
     }
 
     /**

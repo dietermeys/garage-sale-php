@@ -14,6 +14,18 @@
                                 <li>{{ $product->price }}</li>
 
                         </ul>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('products.destroy', $product) }}"
+                              name="products.store" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fa fa-btn fa-user"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
