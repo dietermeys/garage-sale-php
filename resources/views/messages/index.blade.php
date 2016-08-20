@@ -24,7 +24,7 @@
                                     </p>
                                     <p>
                                         <small>
-                                            <strong>To:</strong> {!! $thread->participantsString(Auth::id()) !!}
+                                            <strong>To:</strong> {!! $thread->originalRecipient()->name !!}
                                         </small>
                                     </p>
                                 </div>
