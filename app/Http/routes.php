@@ -19,3 +19,4 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::resource('products', 'ProductsController');
+Route::get('/products/images/{id}/delete', 'ProductsController@deleteImage');

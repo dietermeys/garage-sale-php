@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Image;
 use App\Product;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -131,6 +132,36 @@ class ProductsController extends Controller
         }
 
         return redirect()->to('/');
+    }
+
+    /**
+     * Delete a product image (ajax)
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     * @internal param int $id
+     */
+    public function deleteImage($id)
+    {
+        /** @var Image $image */
+        $image = Image::with('product.seller')->findOrFail($id);
+        $user = auth()->user();
+
+        if ($image->product->seller->id !== $user->id) {
+            return redirect()->back()->withErrors(
+                'You do not have sufficient rights to delete this product.'
+            );
+        }
+
+        if (!$image->delete()) {
+            return response()->json([
+                'error' => 'Could not delete image'
+            ]);
+        }
+
+        return response()->json([
+            'response' => 'ok'
+        ]);
     }
 
     /**
