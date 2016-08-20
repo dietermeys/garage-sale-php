@@ -25,11 +25,15 @@
                             <button type="submit" class="btn btn-default">Search</button>
                         </form>
 
-                        <ul>
-                        @foreach($products as $product)
-                            <li>{{ $product->title }}</li>
+                        @foreach($products->chunk(2) as $chunk)
+                            <div class="row">
+                                @foreach($chunk as $product)
+                                    <div class="col-md-6">
+                                        @include('products.partial.product', compact('product'))
+                                    </div>
+                                @endforeach
+                            </div>
                         @endforeach
-                        </ul>
                         {{ $products->appends(\Request::only('search'))->links() }}
                     </div>
                 </div>
