@@ -30,25 +30,6 @@ class MessagesController extends Controller
     }
 
     /**
-     * Show all of the message threads the user had with
-     * another user.
-     *
-     * @param int $recipientId
-     * @return mixed
-     */
-    public function showConversations($recipientId)
-    {
-        $currentUserId = Auth::user()->id;
-        $recipient = User::findOrFail($recipientId);
-
-        $threads = Thread::between([
-            $currentUserId, $recipientId
-        ])->latest('updated_at')->get();
-
-        return view('messages.index', compact('threads', 'currentUserId', 'recipient'));
-    }
-
-    /**
      * Shows a message thread.
      *
      * @param $id
