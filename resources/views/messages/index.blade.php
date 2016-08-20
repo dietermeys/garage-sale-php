@@ -17,7 +17,7 @@
                             @foreach($threads as $thread)
                                 <?php $class = $thread->isUnread($currentUserId) ? 'alert-info' : ''; ?>
                                 <div class="media alert {!!$class!!}">
-                                    <h4 class="media-heading">{!! url('messages/' . $thread->id, $thread->subject) !!}</h4>
+                                    <h4 class="media-heading"><a href="{{url('messages/' . $thread->id)}}">{{ $thread->subject }}</a></h4>
                                     <p>{!! $thread->latestMessage->body !!}</p>
                                     <p>
                                         <small><strong>From:</strong> {!! $thread->creator()->name !!}</small>
