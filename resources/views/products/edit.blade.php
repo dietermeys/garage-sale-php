@@ -65,7 +65,15 @@
 
                                 <div class="col-md-6">
                                     <input id="images" type="file" class="form-control" name="images[]" multiple>
-
+                                    @foreach($product->photos->chunk(3) as $chunk)
+                                        <div class="row">
+                                            @foreach($chunk as $image)
+                                                    <div class="col-md-4">
+                                                        <img src="/images/products/{{$image->filename}}" alt="">
+                                                    </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
                                     @if ($errors->has('images'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('images') }}</strong>
