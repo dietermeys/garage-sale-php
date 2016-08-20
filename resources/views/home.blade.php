@@ -9,8 +9,12 @@
 
                 <div class="panel-body">
                     @foreach($products->chunk(2) as $chunk)
-                        <div class="col-md-6">
-                            @each('products.partial.product', $chunk, 'product')
+                        <div class="row">
+                            @foreach($chunk as $product)
+                                <div class="col-md-6">
+                                    @include('products.partial.product', compact('product'))
+                                </div>
+                            @endforeach
                         </div>
                     @endforeach
                 </div>
