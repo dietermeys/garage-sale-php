@@ -42,4 +42,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class, "user_id");
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    /**
+     * Favorite/Unfavorite a product
+     * Returns true when favored, false when unfavored
+     *
+     * @param Product $product
+     * @return bool
+     */
+    public function toggleFavorited(Product $product) {
+        $favorite = $this->favorites()->firstOrCreate([
+            'product_id' => $product->id,
+            'user_id' => $this->id,
+        ]);
+
+        if (!$favorite->wasRecentlyCreated)
+            $favorite->delete();
+
+        return $favorite->wasRecentlyCreated;
+    }
 }

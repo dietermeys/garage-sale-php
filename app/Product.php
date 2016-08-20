@@ -50,6 +50,19 @@ class Product extends Model
         return $this->hasMany(Image::class, 'product_id');
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function hasFavorited(User $user)
+    {
+        return $this->favorites()
+            ->whereUserId($user->id)
+            ->get()
+            ->count() > 0;
+    }
+
     /**
      * Scope a query to only include nearby products
      * http://stackoverflow.com/a/1006769

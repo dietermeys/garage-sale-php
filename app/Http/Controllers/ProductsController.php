@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Image;
 use App\Product;
+use App\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
@@ -142,7 +143,6 @@ class ProductsController extends Controller
      *
      * @param $id
      * @return \Illuminate\Http\Response
-     * @internal param int $id
      */
     public function deleteImage($id)
     {
@@ -164,6 +164,26 @@ class ProductsController extends Controller
 
         return response()->json([
             'response' => 'ok'
+        ]);
+    }
+
+    /**
+     * Favor/Unfavor a product (ajax)
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function toggleFavorite($id)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $product = Product::findOrFail($id);
+        $isFavorited = $user->toggleFavorited($product);
+
+        return response()->json([
+           'response' => [
+               'favorited' => $isFavorited
+           ]
         ]);
     }
 
