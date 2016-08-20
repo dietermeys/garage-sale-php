@@ -17,6 +17,7 @@
             <li>Category: {{ $product->category->name }}</li>
             <li>Date: {{ $product->created_at->format('d-m-Y H:i') }}</li>
             <li>Price: € {{ money_format('%i', $product->price) }}</li>
+            <li>Distance: {{ number_format($product->distance / 1000, 2) }}km</li>
         </ul>
         <form class="form-horizontal" role="form" method="POST" action="{{ route('products.show', $product) }}"
               name="products.store" enctype="multipart/form-data">

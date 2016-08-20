@@ -24,9 +24,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $products = Product::with(
+        $products = Product::withDistance(15)->with(
             'seller', 'category', 'photos'
-        )->closeBy($user)->get();
+        )->get();
 
         return view('home', compact('products'));
     }

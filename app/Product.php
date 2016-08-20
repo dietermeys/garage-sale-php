@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -84,7 +85,7 @@ class Product extends Model
      * @param int $maxDistance
      * @return \Illuminate\Database\Query\Builder
      */
-    public function scopeCloseBy($query, $user, $maxDistance = 15)
+    public function scopeCloseBy($query, $user, $maxDistance = null)
     {
         /* @var \Illuminate\Database\Query\Builder $query */
         $query->join("users AS sellers", "sellers.id", "=", "products.user_id");
@@ -94,8 +95,23 @@ class Product extends Model
                 * cos( radians( sellers.lng ) - radians($user->lng) )
                 + sin( radians($user->lat) )
                 * sin( radians( sellers.lat ) ) ) ) AS distance ");
-        $query->having("distance", "<", $maxDistance);
+
+        if (!is_null($maxDistance)) {
+            $query->having("distance", "<", $maxDistance);
+        }
+
         $query->orderBy('distance');
         return $query;
+    }
+
+    /**
+     * Create a query builder that includes the product distance
+     *
+     * @return Builder
+     */
+    public static function withDistance($maxDistance = null)
+    {
+        $query = static::query();
+        return (new static)->scopeCloseBy($query, auth()->user(), $maxDistance);
     }
 }

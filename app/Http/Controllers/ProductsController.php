@@ -6,6 +6,7 @@ use App\Category;
 use App\Image;
 use App\Product;
 use App\User;
+use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
@@ -23,20 +24,14 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        $categories = Category::all();
         /** @var Builder $queryBuilder */
-        $queryBuilder = Product::with("seller", "category");
+        $queryBuilder = Product::withDistance()->with("seller", "category");
 
-        if ($request->has('search')) {
-            $queryBuilder->where(
-                'title', 'like', '%' . $request->get('search') . '%'
-            );
-            $queryBuilder->orWhere(
-                'summary', 'like', '%' . $request->get('search') . '%'
-            );
-        }
+        $this->buildSearchQuery($request, $queryBuilder);
 
-        $products = $queryBuilder->paginate(10);
-        return view('products.index', compact("products"));
+        $products = $queryBuilder->simplePaginate(10);
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**
@@ -44,22 +39,18 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function favorites()
+    public function favorites(Request $request)
     {
-        /** @var LengthAwarePaginator $paginator */
-        $paginator = auth()->user()->favorites()->with('product')->paginate(10);
+        $categories = Category::all();
+        $queryBuilder = Product::withDistance()
+            ->with('seller', 'category')
+            ->join('favorites', 'favorites.product_id', '=', 'products.id')
+            ->where('favorites.user_id', '=', auth()->user()->id);
 
-        // Extract Products from Favorite collection
-        $products = $paginator->map(function($favorite) {
-            return $favorite->product;
-        });
+        $this->buildSearchQuery($request, $queryBuilder);
 
-        // Fill paginator with Products instead of Favorites
-        $paginator->setCollection($products);
-
-        return view('products.index', [
-            'products' => $paginator
-        ]);
+        $products = $queryBuilder->simplePaginate(10);
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**
@@ -240,5 +231,43 @@ class ProductsController extends Controller
 
         // Save in db
         $product->photos()->createMany($urls);
+    }
+
+    /**
+     * @param Request $request
+     * @param $queryBuilder
+     */
+    public function buildSearchQuery(Request $request, $queryBuilder)
+    {
+        if ($request->has('search')) {
+            $queryBuilder->where(function ($query) use ($request) {
+                $query->where(
+                    'title', 'like', '%' . $request->get('search') . '%'
+                );
+                $query->orWhere(
+                    'summary', 'like', '%' . $request->get('search') . '%'
+                );
+            });
+        }
+        if ($request->has('price_start')) {
+            $queryBuilder->where(
+                'price', '>=', $request->get('price_start')
+            );
+        }
+        if ($request->has('price_end')) {
+            $queryBuilder->where(
+                'price', '<=', $request->get('price_end')
+            );
+        }
+        if ($request->has('category_id')) {
+            $queryBuilder->where(
+                'category_id', '=', $request->get('category_id')
+            );
+        }
+        if ($request->has('distance')) {
+            $queryBuilder->having(
+                'distance', '<=', $request->get('distance')
+            );
+        }
     }
 }
