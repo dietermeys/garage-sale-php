@@ -1,11 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+$favoriteClass = $product->isFavorited ? 'fa-star' : 'fa-star-o';
+?>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">{{ $product->title }}</div>
+                <div class="panel panel-default product" data-id="{{ $product->id }}">
+                    <div class="panel-heading">{{ $product->title }}
+
+                        <button type="button" class="btn btn-default btn-sm pull-right favorite_toggle" aria-label="Left Align">
+                            <i class="fa {{ $favoriteClass }}" aria-hidden="true"></i>
+                        </button>
+                    </div>
 
                     <div class="panel-body">
                         <ul>
@@ -69,4 +77,5 @@
             </div>
         </div>
     </div>
+    <script src="/js/favorite.js"></script>
 @endsection
