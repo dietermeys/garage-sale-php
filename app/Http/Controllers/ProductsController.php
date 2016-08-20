@@ -28,6 +28,9 @@ class ProductsController extends Controller
             $queryBuilder->where(
                 'title', 'like', '%' . $request->get('search') . '%'
             );
+            $queryBuilder->orWhere(
+                'summary', 'like', '%' . $request->get('search') . '%'
+            );
         }
 
         $products = $queryBuilder->paginate(10);
