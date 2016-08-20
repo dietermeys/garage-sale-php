@@ -1,5 +1,13 @@
-<div class="panel panel-default">
-    <div class="panel-heading">{{ $product->title }}</div>
+<?php
+ $favoriteClass = $product->isFavorited ? 'fa-star' : 'fa-star-o';
+?>
+<div class="panel panel-default product" data-id="{{ $product->id }}">
+    <div class="panel-heading">{{ $product->title }}
+
+        <button type="button" class="btn btn-default btn-sm pull-right favorite_toggle" aria-label="Left Align">
+            <i class="fa {{ $favoriteClass }}" aria-hidden="true"></i>
+        </button>
+    </div>
 
     <div class="panel-body">
         <ul>

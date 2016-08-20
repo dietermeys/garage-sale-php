@@ -40,4 +40,5 @@
             </div>
         </div>
     </div>
+    <script src="/js/favorite.js"></script>
 @endsection

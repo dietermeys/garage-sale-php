@@ -30,6 +30,18 @@ class Product extends Model
     }
 
     /**
+     * Check if this product is favorited
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getIsFavoritedAttribute($value)
+    {
+        $user = auth()->user();
+        return $this->hasFavorited($user);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|Category
      */
     public function category()
