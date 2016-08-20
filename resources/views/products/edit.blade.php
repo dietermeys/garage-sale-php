@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+    <script>
+        $(function() {
+           $('.product_image').click(function(e) {
+               // Fetch the clicked image
+               var image = $(this);
+               var imageId = image.attr('data-id');
+
+               $.getJSON('/products/images/'+ imageId +'/delete', function(data) {
+                   if (data.response === 'ok') {
+                       image.remove();
+                   }
+               });
+           });
+        });
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -11,7 +26,7 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('products.update', [
                             'id' => $product->id
                         ]) }}"
-                              name="products.store" enctype="multipart/form-data">
+                              name="products.update" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             {{ method_field('PATCH') }}
 
@@ -68,7 +83,7 @@
                                     @foreach($product->photos->chunk(3) as $chunk)
                                         <div class="row">
                                             @foreach($chunk as $image)
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-4 product_image" data-id="{{ $image->id }}">
                                                         <img src="/images/products/{{$image->filename}}" alt="">
                                                     </div>
                                             @endforeach

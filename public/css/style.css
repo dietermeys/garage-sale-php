@@ -1,3 +1,7 @@
 img{
     width: 100%;
 }
+
+form[name="products.update"] .product_image {
+    cursor: pointer;
+}
