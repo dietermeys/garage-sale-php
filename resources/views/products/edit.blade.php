@@ -1,21 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
-        $(function() {
-           $('.product_image').click(function(e) {
-               // Fetch the clicked image
-               var image = $(this);
-               var imageId = image.attr('data-id');
-
-               $.getJSON('/products/images/'+ imageId +'/delete', function(data) {
-                   if (data.response === 'ok') {
-                       image.remove();
-                   }
-               });
-           });
-        });
-    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -138,4 +123,5 @@
             </div>
         </div>
     </div>
+    <script src="/js/products/edit.js"></script>
 @endsection

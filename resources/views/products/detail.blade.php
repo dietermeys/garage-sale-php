@@ -77,5 +77,4 @@ $favoriteClass = $product->isFavorited ? 'fa-star' : 'fa-star-o';
             </div>
         </div>
     </div>
-    <script src="/js/favorite.js"></script>
 @endsection
