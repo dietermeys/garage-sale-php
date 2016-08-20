@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductsController extends Controller
 {
@@ -36,6 +37,29 @@ class ProductsController extends Controller
 
         $products = $queryBuilder->paginate(10);
         return view('products.index', compact("products"));
+    }
+
+    /**
+     * Display a listing of all favorited Products
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function favorites()
+    {
+        /** @var LengthAwarePaginator $paginator */
+        $paginator = auth()->user()->favorites()->with('product')->paginate(10);
+
+        // Extract Products from Favorite collection
+        $products = $paginator->map(function($favorite) {
+            return $favorite->product;
+        });
+
+        // Fill paginator with Products instead of Favorites
+        $paginator->setCollection($products);
+
+        return view('products.index', [
+            'products' => $paginator
+        ]);
     }
 
     /**

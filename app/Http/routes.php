@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/products/favorites', 'ProductsController@favorites');
 Route::resource('products', 'ProductsController');
 Route::get('/products/images/{id}/delete', 'ProductsController@deleteImage');
 Route::get('/products/{id}/favorite', 'ProductsController@toggleFavorite');
