@@ -26,7 +26,7 @@ class MessagesController extends Controller
         // All threads that user is participating in
         $threads = Thread::forUser($currentUserId)->latest('updated_at')->get();
 
-        return view('messenger.index', compact('threads', 'currentUserId'));
+        return view('messages.index', compact('threads', 'currentUserId'));
     }
 
     /**
@@ -45,7 +45,7 @@ class MessagesController extends Controller
             $currentUserId, $recipientId
         ])->latest('updated_at')->get();
 
-        return view('messenger.index', compact('threads', 'currentUserId', 'recipient'));
+        return view('messages.index', compact('threads', 'currentUserId', 'recipient'));
     }
 
     /**
@@ -68,7 +68,7 @@ class MessagesController extends Controller
         $userId = Auth::user()->id;
         $thread->markAsRead($userId);
 
-        return view('messenger.show', compact('thread'));
+        return view('messages.show', compact('thread'));
     }
 
     /**
@@ -81,7 +81,7 @@ class MessagesController extends Controller
     {
         $recipient = User::find($recipientId);
 
-        return view('messenger.create', compact('recipient'));
+        return view('messages.create', compact('recipient'));
     }
 
     /**
