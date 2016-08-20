@@ -63,12 +63,14 @@ class Product extends Model
     {
         /* @var \Illuminate\Database\Query\Builder $query */
         $query->join("users AS sellers", "sellers.id", "=", "products.user_id");
+        $query->selectRaw('products.*');
         $query->selectRaw("( 6371 * acos( cos( radians($user->lat) )
                 * cos( radians( sellers.lat ) )
                 * cos( radians( sellers.lng ) - radians($user->lng) )
                 + sin( radians($user->lat) )
                 * sin( radians( sellers.lat ) ) ) ) AS distance ");
         $query->having("distance", "<", $maxDistance);
+        $query->orderBy('distance');
         return $query;
     }
 }
