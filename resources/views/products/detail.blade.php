@@ -52,6 +52,18 @@
                             </div>
                         </form>
                         @endif
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('messages.create', $product->seller) }}"
+                              name="products.store" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('GET') }}
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fa fa-btn fa-user"></i> Send message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
