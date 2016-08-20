@@ -8,7 +8,11 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    @foreach($products->chunk(2) as $chunk)
+                        <div class="col-md-6">
+                            @each('products.partial.product', $chunk, 'product')
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
