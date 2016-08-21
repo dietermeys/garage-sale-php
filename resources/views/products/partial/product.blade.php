@@ -24,7 +24,7 @@
             @foreach($product->photos->take(4)->chunk(4) as $chunk)
                 <div class="row">
                     @foreach($chunk as $image)
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="max-height: 100px;">
                             <img src="/images/products/{{$image->filename}}" alt="">
                         </div>
                     @endforeach

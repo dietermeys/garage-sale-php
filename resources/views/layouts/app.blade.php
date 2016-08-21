@@ -62,6 +62,7 @@
                     @if (Auth::check())
                     <li><a href="{{ url('/home') }}">Home</a></li>
                     <li><a href="{{ url('/products') }}">Products</a></li>
+                    <li><a href="{{ url('/products/create') }}">Add Product</a></li>
                     @else
                     @endif
                 </ul>

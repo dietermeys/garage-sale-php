@@ -149,8 +149,8 @@ class ProductsController extends Controller
                 'You do not have sufficient rights to delete this product.'
             );
         }
-
-        return redirect()->to('/');
+        $product->delete();
+        return redirect()->to('/products');
     }
 
     /**
