@@ -45,9 +45,15 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                @if (Auth::check())
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    Garage sale
                 </a>
+                @else
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Garage sale
+                </a>
+                @endif
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
