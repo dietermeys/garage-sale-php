@@ -12,13 +12,24 @@
 
     <div class="panel-body">
         <ul>
-            <li>Title: {{ $product->title }}</li>
-            <li>Summary: {{ $product->summary }}</li>
-            <li>Seller: {{ $product->seller->name }}</li>
-            <li>Category: {{ $product->category->name }}</li>
-            <li>Date: {{ $product->created_at->format('d-m-Y H:i') }}</li>
-            <li>Price: € {{ money_format('%i', $product->price) }}</li>
-            <li>Distance: {{ number_format($product->distance / 1000, 2) }}km</li>
+            <li><strong>Summary:</strong></li>
+            <li>{{ str_limit($product->summary, 100) }}</li>
+            <li><strong>Category:</strong></li>
+            <li>{{ $product->category->name }}</li>
+            <li><strong>Price:</strong></li>
+            <li>{{ money_format('%i', $product->price) }} €</li>
+            <li><strong>Distance:</strong></li>
+            <li>{{ number_format($product->distance / 1000, 2) }}km</li>
+            <li><strong>Images:</strong></li>
+            @foreach($product->photos->take(4)->chunk(4) as $chunk)
+                <div class="row">
+                    @foreach($chunk as $image)
+                        <div class="col-md-3">
+                            <img src="/images/products/{{$image->filename}}" alt="">
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
         </ul>
         <form class="form-horizontal" role="form" method="POST" action="{{ route('products.show', $product) }}"
               name="products.store" enctype="multipart/form-data">
@@ -27,7 +38,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-info">
-                        <i class="fa fa-btn fa-user"></i> More >>>
+                        More >>>
                     </button>
                 </div>
             </div>
