@@ -5,3 +5,25 @@ img{
 form[name="products.update"] .product_image {
     cursor: pointer;
 }
+.search{
+    width: 100%;
+    min-height: 110px;
+}
+.search1{
+    min-height: 55px;
+    width: 26%;
+}
+.button1{
+     width: 11%;
+}
+.button2{
+    width: 74px;
+}
+.favorite{
+    background-color: gold;
+    color: white;
+}
+.notfavorite{
+    background-color: white;
+    color: black;
+}
