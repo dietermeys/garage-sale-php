@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-info">
+                <div class="panel panel-warning">
                     <div class="panel-heading">Create new message</div>
                     <div class="panel-body">
                         <div class="col-md-6 col-md-offset-3">
@@ -27,8 +27,8 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-user"></i> Send
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i> Send
                                     </button>
                                 </div>
                             </div>
