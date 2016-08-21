@@ -7,8 +7,11 @@ $(function () {
 
         var icon = $('.favorite_toggle i', productPanel);
 
+        var button = $('.favorite_toggle', productPanel);
+
         $.getJSON('/products/' + productId + '/favorite', function (data) {
             icon.toggleClass('fa-star-o fa-star')
+            button.toggleClass('notfavorite favorite')
         });
     });
 });
