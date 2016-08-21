@@ -101,7 +101,19 @@ $favoriteClassButton = $product->isFavorited ? 'favorite' : 'notfavorite';
                             </form>
                         @endif
                     </div>
-                </div>
+                        <iframe width="400" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q={{ $product->seller->lat }},{{ $product->seller->lng }}&hl=es;z=14&amp;output=embed"></iframe>
+                        <div class="col-md-6">
+                            <ul>
+                                <li><h4>Information seller:</h4></li>
+                                <li><strong>Name:</strong></li>
+                                <li>{{ $product->seller->name }}</li><br />
+                                <li><strong>City:</strong></li>
+                                <li>{{ $product->seller->city }}</li><br />
+                                <li><strong>Distance:</strong></li>
+                                <li>{{ number_format($product->distance / 1000, 2) }}km</li><br />
+                            </ul>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
