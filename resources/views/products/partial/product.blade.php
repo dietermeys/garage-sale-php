@@ -2,8 +2,8 @@
  $favoriteClass = $product->isFavorited ? 'fa-star' : 'fa-star-o';
  $favoriteClassButton = $product->isFavorited ? 'favorite' : 'notfavorite';
 ?>
-<div class="panel panel-success product" data-id="{{ $product->id }}">
-    <div class="panel-heading">{{ $product->title }}
+<div class="panel panel-success panel-success1 product" data-id="{{ $product->id }}">
+    <div class="panel-heading" style="height: 50px;">{{ $product->title }}
 
         <button type="button" class="btn btn-default btn-sm pull-right favorite_toggle {{ $favoriteClassButton }}" aria-label="Left Align">
             <i class="fa {{ $favoriteClass }}" aria-hidden="true"></i>
