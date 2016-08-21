@@ -16,6 +16,7 @@
                                     <div class="text-muted"><small>Posted {!! $message->created_at->diffForHumans() !!}</small></div>
                                 </div>
                             </div>
+                            <hr>
                         @endforeach
 
                         <h2>Add a new message</h2>
