@@ -4,9 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">Create new message</div>
                     <div class="panel-body">
+                        <div class="col-md-6 col-md-offset-3">
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('messages.store') }}"
                               name="messages.store" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -21,6 +22,7 @@
                             <div class="form-group">
                                 <label for="message" class="control-label">Message</label>
                                 <textarea id="message" class="form-control" name="message"></textarea>
+                                <p>Send to: {{ $recipient->name }}</p>
                             </div>
 
                             <div class="form-group">
@@ -31,6 +33,7 @@
                                 </div>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
